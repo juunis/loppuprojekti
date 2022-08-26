@@ -1,0 +1,16 @@
+{
+  "name": "fetch-rss-lambdaan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fetchTos3-lambda.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1200.0",
+    "fs": "^0.0.1-security",
+    "rss-parser": "^3.12.0"
+  }
+}
