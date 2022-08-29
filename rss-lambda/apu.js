@@ -1,54 +1,71 @@
 "use strict";
+/* Helper functions for the main program
+ */
+
 const Parser = require("rss-parser");
 const parser = new Parser();
 
-function luoAikaleimaJSONnimi(aikaleima) {
-  return `uutiset/${aikaleima.getFullYear()}-${
-    aikaleima.getMonth < 9
+/* Function to create a time stamp string  for e.g. filenames from a Date
+ *  Parameter: Date
+ *  Output: string (format example: 22-08-02t13.53)
+ */
+function luoAikaleima(aikaleima) {
+  return `${aikaleima.getFullYear()}-${
+    aikaleima.getMonth() < 9
       ? "0" + String(aikaleima.getMonth() + 1)
       : aikaleima.getMonth() + 1
   }-${aikaleima.getDate()}t${
-    aikaleima.getHours < 10
+    aikaleima.getHours() < 10
       ? "0" + String(aikaleima.getHours())
       : aikaleima.getHours()
   }.${
-    aikaleima.getMinutes < 10
+    aikaleima.getMinutes() < 10
       ? "0" + String(aikaleima.getMinutes())
       : aikaleima.getMinutes()
-  }.json`;
+  }`;
 }
 
+/* Function to fetch news items from feeds given as an input of a certain time window
+ * Input: Json-file of feed items, Date of the oldest item to be taken into account.
+ * Json file format: {"feeds": [
+ *  {
+ *     "URL": <URL>,
+ *     "country": <country of the source>
+ *   }
+ * Output: an array of news items
+ */
 async function haeFeedit(feedURLs, aikaleima) {
   let uutiset = [];
 
-  // Käy kaikki feed-tiedoston lähteet läpi
+  // Process all the feeds in the object
   for (let element of feedURLs.feeds) {
-    // Noudetaan data URL:ista
+    // Get data from the URL
     const data = await fetchLatest(element.URL);
-    // Käydään läpi ko. lähteen uutiset
+    // Process all the news items
     data.items.forEach((item) => {
       if (aikaleima < new Date(item.isoDate)) {
-        // Hylkää kaikki aikaleima-parametria vanhemmat uutiset
+        // Discard all news items that are older than the aikaleima parameter
         uutiset.push({
-          // Tallennettavat tiedot
+          // Save the following data
           title: item.title,
-          contentSnippet: item.contentSnippet ?? item.description, // Huomioidaan lähteiden avaimien vaihtelu
-          isoDate: item.isoDate ?? new Date(item.pubDate).toISOString(), // Huomioidaan lähteiden avaimien vaihtelu
+          contentSnippet: item.contentSnippet ?? item.description, // Handling of key name variability between sources
+          isoDate: item.isoDate ?? new Date(item.pubDate).toISOString(), // Handling of key name variability between sources
           link: item.link,
-          source: data.title, // Lähteen nimi
-          country: element.country, //Feed-tiedostosta lähdemaa -määritelmä
+          source: data.title, // Name of the source
+          country: element.country, // Source country from feed-list object
         });
       }
     });
   }
-  // Järjestä uusimmasta vanhimpaan
+  // Sort from newest to oldest
   uutiset.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
   return uutiset;
 }
 
+// Function that fetches data from a given URL
 async function fetchLatest(feedURL) {
   const feed = await parser.parseURL(feedURL);
   return { title: feed.title, items: feed.items };
 }
 
-module.exports = { luoAikaleimaJSONnimi, haeFeedit };
+module.exports = { luoAikaleima, haeFeedit };
