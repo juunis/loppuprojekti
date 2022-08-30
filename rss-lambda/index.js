@@ -3,14 +3,14 @@
 const { luoAikaleima, haeFeedit } = require("./apu.js");
 const { s3hae, s3Tallenna, classify } = require("./aws.js");
 
-const s3Bucket = "riston-analyysit";
-const s3Classdata = "riston-analyysit";
+const s3Bucket = "skouppi-bucket";
+const s3Classdata = "skouppi-classdata";
 const classifyModelArn =
-  "arn:aws:comprehend:eu-central-1:235920682125:document-classifier/jauhotesti/version/0-2-2";
+  "arn:aws:comprehend:us-east-1:235920682125:document-classifier/energy-crisis-model/version/0-7";
 const uutislahteet = "feeds/testfeeds.json";
 
-// exports.handler = async function () {
-const handler = async function () {
+// exports.handler = async function (event) {
+const handler = async function (event) {
   // ATTENTION! Comment out the appropriate line above whether your are testing locally with node or running on AWS Lambda
 
   let feedURLs = await s3hae(s3Bucket, uutislahteet); // News source RSS-feeds || test feeds
@@ -23,12 +23,12 @@ const handler = async function () {
     new Date().setHours(new Date().getHours() - 12)
   );
 
-  // S3:een tallennettavan tiedostonnimen muotoilu
-  // Filename for the file going into the S3 Bucket
-  const tiedostonNimi = `uutiset/${luoAikaleima(new Date())}.json`;
+  // S3:een tallennettavan tiedostonnimen muotoilu (uutiset/<aikaleima>.json)
+  // Filename for the file going into the S3 Bucket (uutiset/<aikaleima>.json)
+  const uutistiedostonNimi = `uutiset/${luoAikaleima(new Date())}.json`;
 
   // Save the news items into a s3 bucket as json.
-  await s3Tallenna(uutiset, s3Bucket, tiedostonNimi, "application/json");
+  await s3Tallenna(uutiset, s3Bucket, uutistiedostonNimi, "application/json");
 
   // Luodaan uutisista luokittimelle sopiva tiedosto uutisista ja tallennetaan S3Buckeettin
   // Reformat the news items for the AWS Comprehend analysis job
@@ -52,7 +52,8 @@ const handler = async function () {
     s3Bucket,
     tunnistustiedostonNimi,
     s3Classdata,
-    classifyModelArn
+    classifyModelArn,
+    uutistiedostonNimi
   );
 
   return 0;
