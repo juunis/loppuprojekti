@@ -1,5 +1,5 @@
 "use strict";
-/* Helper functions for the main program
+/* Some helper functions for the main program
  */
 
 const Parser = require("rss-parser");

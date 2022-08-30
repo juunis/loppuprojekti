@@ -51,7 +51,7 @@ async function s3hae(bucket, tiedostonNimi) {
  * Input: input s3 bucket, input filename, output s3 bucket, classification model to be used
  * Output
  */
-async function classify(inputBucket, inputfile, output, modelArn) {
+async function classify(inputBucket, inputfile, output, modelArn, sourcetag) {
   const params = {
     DataAccessRoleArn:
       "arn:aws:iam::235920682125:role/service-role/AmazonComprehendServiceRole-ristotest" /* required */,
@@ -71,6 +71,10 @@ async function classify(inputBucket, inputfile, output, modelArn) {
       {
         Key: "Owner" /* required */,
         Value: "Skouppi",
+      },
+      {
+        Key: "source-news",
+        Value: sourcetag,
       },
     ],
   };
