@@ -9,8 +9,8 @@ const classifyModelArn =
   "arn:aws:comprehend:us-east-1:235920682125:document-classifier/energy-crisis-model/version/0-7";
 const uutislahteet = "feeds/testfeeds.json";
 
-// exports.handler = async function () {
-const handler = async function () {
+// exports.handler = async function (event) {
+const handler = async function (event) {
   // ATTENTION! Comment out the appropriate line above whether your are testing locally with node or running on AWS Lambda
 
   let feedURLs = await s3hae(s3Bucket, uutislahteet); // News source RSS-feeds || test feeds

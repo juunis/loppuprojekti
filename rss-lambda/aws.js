@@ -1,7 +1,8 @@
 "use strict";
 
-/* s3 Bucket functions for the main program
+/* AWS service functions for the main program
  */
+
 const region = "eu-central-1";
 const AWS = require("aws-sdk");
 const { luoAikaleima } = require("./apu.js");
