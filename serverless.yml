@@ -1,0 +1,64 @@
+service: skouppi-sls-testi2
+
+custom:
+  settings:
+    POSTS_TABLE: skouppi
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  environment: ${self:custom.settings}
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - lambda:InvokeFunction
+            - s3:*
+            - comprehend:*
+            - iam:PassRole
+            # lisää tähän kaikki tarvittavat roolit, tsekkaa testi2:n käsin lisätyt roolit, myös lisätty trusted entity vai mikö olikaan
+          Resource:
+            #- "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.POSTS_TABLE}"
+            #- "arn:aws:lambda:${self:provider.region}"
+            - "arn:aws:s3:::skouppi-sls-testi/*"
+            - "arn:aws:s3:::skouppi-classdata/*"
+            - "arn:aws:s3:::skouppi-bucket/*"
+            - "arn:aws:iam::235920682125:role/skouppi-sls-testi2-dev-us-east-1-lambdaRole"
+            #- "arn:aws:sns:${self:provider.region}:235920682125:Kanye-topic"
+
+functions:
+  rss-lambda-testi:
+    handler: rss-lambda/index.handler
+    timeout: 10
+    events:
+      - eventBridge:
+          schedule: rate(12 hours)
+
+
+
+  dataggregator-lambda-testi:
+    handler: dataggregator-lambda/index.handler
+    events:
+      - s3:
+          bucket: skouppi-sls-testi
+          event: s3:ObjectCreated:*
+          #existing: true
+
+        
+  kolmas-lambda-testi: # muokkaa tää oikeaksi
+    handler: kolmas-lambda/index.handler
+    events:
+      - http:
+          path: /uutiset
+          method: GET
+
+
+# resources:
+#   Resources:
+
+
+
+plugins:
+  - serverless-ignore
