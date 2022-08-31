@@ -2,18 +2,20 @@
 const { luoAikaleima, haeFeedit } = require("./apu.js");
 const { s3hae, s3Tallenna, classify } = require("./aws.js");
 
-const s3Bucket = "tiina-testibucket";
-const s3Classdata = "tiina-testibucket";
+const s3Bucket = "skouppi-bucket";
+const s3Classdata = "skouppi-classdata";
 const classifyModelArn =
   "arn:aws:comprehend:us-east-1:235920682125:document-classifier/energy-crisis-model/version/0-7";
-const uutislahteet = "feeds/testfeeds_big.json";
+const uutislahteet = "feeds/feeds.json";
 
-// exports.handler = async function (event) {
-const handler = async function (event) {
+exports.handler = async function (event) {
+  // const handler = async function (event) {
   // ATTENTION! Comment out the appropriate line above whether your are testing locally with node or running on AWS Lambda
 
   let feedURLs = await s3hae(s3Bucket, uutislahteet); // News source RSS-feeds || test feeds
   feedURLs = JSON.parse(feedURLs);
+
+  console.log("Feed-lähteet haettu."); //Debug
 
   // Haetaan uutiset, parametrina lähteet ja aikaikkuna tästä hetkestä taaksepäin
   // Fetch the news, sources and a time window (from this moment backwards) as parameters.
@@ -21,6 +23,7 @@ const handler = async function (event) {
     feedURLs,
     new Date().setHours(new Date().getHours() - 12)
   );
+  console.log("Uutiset haettu feedeistä"); //Debug
 
   // S3:een tallennettavan tiedostonnimen muotoilu (uutiset/<aikaleima>.json)
   // Filename for the file going into the S3 Bucket (uutiset/<aikaleima>.json)
@@ -28,6 +31,8 @@ const handler = async function (event) {
 
   // Save the news items into a s3 bucket as json.
   await s3Tallenna(uutiset, s3Bucket, uutistiedostonNimi, "application/json");
+
+  console.log(`Uuutiset tallennettu ${s3Bucket}:iin`); //Debug
 
   // Luodaan uutisista luokittimelle sopiva tiedosto uutisista ja tallennetaan S3Buckeettin
   // Reformat the news items for the AWS Comprehend analysis job
@@ -45,6 +50,8 @@ const handler = async function (event) {
     "application/txt"
   );
 
+  console.log(`Testiluokittelu-tiedosto luotu ja tallennettu ${s3Bucket}:iin`); //Debug
+
   // Luodaan ja käynnistetään tunnistusoperaatio AWS:ään
   // Create and run AWS Comprehend analysis job
   await classify(
@@ -54,8 +61,8 @@ const handler = async function (event) {
     classifyModelArn,
     uutistiedostonNimi
   );
-  console.log("luokittelu käynnistetty");
+  console.log("Luokittelu käynnistetty"); //Debug
   return 0;
 };
 
-handler(); // ATTENTION! Comment out this function when deploying the code in lambda
+// handler(); // ATTENTION! Comment out this function when deploying the code in lambda
