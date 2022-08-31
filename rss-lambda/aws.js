@@ -3,7 +3,7 @@
 /* AWS service functions for the main program
  */
 
-const region = "eu-central-1";
+const region = "us-east-1";
 const AWS = require("aws-sdk");
 const { luoAikaleima } = require("./apu.js");
 const s3 = new AWS.S3({ region: region, apiVersion: "2012-10-17" });
@@ -29,7 +29,7 @@ async function s3Tallenna(data, bucket, tiedostonNimi, tyyppi) {
       `File uploaded successfully at https:/` + bucket + `.s3.amazonaws.com/`
     );
   } catch (error) {
-    console.log("Error: ei onnistunu tallennus buckettiin \n", error);
+    console.log("Error: ei onnistunu tallennus buckettiin \n", bucket, error);
   }
 }
 
@@ -74,7 +74,7 @@ async function classify(inputBucket, inputfile, output, modelArn, sourcetag) {
         Value: "Skouppi",
       },
       {
-        Key: "source-news",
+        Key: "source-news" /* Needed for next data matching in the next phase */,
         Value: sourcetag,
       },
     ],

@@ -40,26 +40,53 @@ async function haeFeedit(feedURLs, aikaleima) {
   // Process all the feeds in the object
   for (let element of feedURLs.feeds) {
     // Get data from the URL
-    const data = await fetchLatest(element.URL);
-    // Process all the news items
-    data.items.forEach((item) => {
-      if (aikaleima < new Date(item.isoDate)) {
-        // Discard all news items that are older than the aikaleima parameter
-        uutiset.push({
-          // Save the following data
-          title: item.title,
-          contentSnippet: item.contentSnippet ?? item.description, // Handling of key name variability between sources
-          isoDate: item.isoDate ?? new Date(item.pubDate).toISOString(), // Handling of key name variability between sources
-          link: item.link,
-          source: data.title, // Name of the source
-          country: element.country, // Source country from feed-list object
-        });
-      }
+
+    const getnews = new Promise(async (resolve, reject) => {
+      const data = await fetchLatest(element.URL);
+      resolve(data);
     });
+    getnews
+      .then((data) => {
+        data.items.forEach((item) => {
+          if (aikaleima < new Date(item.isoDate)) {
+            // Discard all news items that are older than the aikaleima parameter
+            uutiset.push({
+              // Save the following data
+              title: item.title,
+              contentSnippet: item.contentSnippet ?? item.description ?? "", // Handling of key name variability between sources
+              isoDate: item.isoDate ?? new Date(item.pubDate).toISOString(), // Handling of key name variability between sources
+              link: item.link,
+              source: element.title, // Name of the source
+              country: element.country, // Source country from feed-list object
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(element.title, error);
+      });
   }
-  // Sort from newest to oldest
-  uutiset.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
   return uutiset;
+  // Old syncronous code ------>
+  // const data = await fetchLatest(element.URL);
+  // // Process all the news items
+  // data.items.forEach((item) => {
+  //   if (aikaleima < new Date(item.isoDate)) {
+  //     // Discard all news items that are older than the aikaleima parameter
+  //     uutiset.push({
+  //       // Save the following data
+  //       title: item.title,
+  //       contentSnippet: item.contentSnippet ?? item.description ?? "", // Handling of key name variability between sources
+  //       isoDate: item.isoDate ?? new Date(item.pubDate).toISOString(), // Handling of key name variability between sources
+  //       link: item.link,
+  //       source: element.title, // Name of the source
+  //       country: element.country, // Source country from feed-list object
+  //     });
+  //   }
+  // });
+
+  // Sort from newest to oldest
+  // uutiset.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
 }
 
 // Function that fetches data from a given URL

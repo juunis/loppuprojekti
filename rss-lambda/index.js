@@ -1,13 +1,12 @@
 "use strict";
-// exports.region = "eu-central-1";
 const { luoAikaleima, haeFeedit } = require("./apu.js");
 const { s3hae, s3Tallenna, classify } = require("./aws.js");
 
-const s3Bucket = "skouppi-bucket";
-const s3Classdata = "skouppi-classdata";
+const s3Bucket = "tiina-testibucket";
+const s3Classdata = "tiina-testibucket";
 const classifyModelArn =
   "arn:aws:comprehend:us-east-1:235920682125:document-classifier/energy-crisis-model/version/0-7";
-const uutislahteet = "feeds/testfeeds.json";
+const uutislahteet = "feeds/testfeeds_big.json";
 
 // exports.handler = async function (event) {
 const handler = async function (event) {
@@ -34,7 +33,7 @@ const handler = async function (event) {
   // Reformat the news items for the AWS Comprehend analysis job
   let tunnistustekstit = "";
   for (let i of uutiset) {
-    tunnistustekstit += `${i.title} ${i.contentSnippet} \n`; // Otetaan mukaan otsikko ja sisältökatkelma
+    tunnistustekstit += `${i.title.trim()} ${i.contentSnippet.trim()}-- \n`; // Otetaan mukaan otsikko ja sisältökatkelma
   }
 
   // Save the formatted news items to s3Bucket
@@ -55,7 +54,7 @@ const handler = async function (event) {
     classifyModelArn,
     uutistiedostonNimi
   );
-
+  console.log("luokittelu käynnistetty");
   return 0;
 };
 
