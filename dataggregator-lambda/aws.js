@@ -83,6 +83,7 @@ async function getNewssource(JobId) {
   } catch (error) {
     console.log("Error! \n", error);
   }
+  return data;
 }
 
 module.exports = { s3hae, s3Tallenna, getLatesClassify, getNewssource };
