@@ -49,16 +49,6 @@ async function s3hae(bucket, tiedostonNimi) {
   }
 }
 
-async function getLatesClassify(bucket) {
-  const params = { Bucket: bucket };
-
-  const response = await s3.listObjectsV2(params).promise();
-  const files = response.Contents.sort(
-    (a, b) => b.LastModified - a.LastModified
-  );
-  return files[0].Key;
-}
-
 // Function for getting information from a Analysis Job's tags
 // Input: string (Analysis JobId)
 // Output: string (the object key for the original file used as the source for the input data of the analysis job)
@@ -86,4 +76,4 @@ async function getNewssource(JobId) {
   return data;
 }
 
-module.exports = { s3hae, s3Tallenna, getLatesClassify, getNewssource };
+module.exports = { s3hae, s3Tallenna, getNewssource };
