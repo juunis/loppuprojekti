@@ -9,14 +9,15 @@
 const AWS = require("aws-sdk");
 const decompress = require("decompress");
 const { s3hae, s3Tallenna, getNewssource } = require("./aws.js");
-const s3Bucket = "scouppi-bucket";
-const s3Classdata = "scouppi-classdata";
+const s3Bucket = "skouppi-bucket";
+const s3Classdata = "skouppi-classdata";
 const loppudataTiedosto = "output/loppudata.json";
 
+const className = "Ukraine";
 const confidenceVAL = 0.7;
 
-exports.handler = async function (event) {
-  // const handler = async function (event) {
+// exports.handler = async function (event) {
+const handler = async function (event) {
   // ATTENTION! Comment out the appropriate line above whether your are testing locally with node or running on AWS Lambda
 
   /* Haetaan luokittelun pohjalla olleet alkuperäiset uutistiedot
@@ -55,9 +56,9 @@ exports.handler = async function (event) {
 
   for (let i = 0; i < uutiset.length; i++) {
     const test = JSON.parse(luokitteludata[i]).Classes[0];
-    if (test.Name === "Energycrisis" && test.Score > confidenceVAL) {
-      uutiset[i].score = { name: test.Name, score: test.Score };
+    if (test.Name === className && test.Score > confidenceVAL) {
       valitut.push(uutiset[i]);
+      uutiset[i].score = { name: test.Name, score: test.Score };
     } else {
       uutiset[i].score = { name: test.Name, score: test.Score };
       hylatyt.push(uutiset[i]);
@@ -132,7 +133,7 @@ exports.handler = async function (event) {
 //           arn: "arn:aws:s3:::tiina-testibucket",
 //         },
 //         object: {
-//           key: "235920682125-CLN-84c4f92d7949e25f1705e3851617f41f/output/output.tar.gz",
+//           key: "235920682125-CLN-fdf3c3e6dce1cc6dc358f28d7a322002/output/output.tar.gz",
 //           size: 1024,
 //           eTag: "0123456789abcdef0123456789abcdef",
 //           sequencer: "0A1B2C3D4E5F678901",

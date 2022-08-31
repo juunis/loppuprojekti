@@ -5,7 +5,7 @@ const { s3hae, s3Tallenna, classify } = require("./aws.js");
 const s3Bucket = "skouppi-bucket";
 const s3Classdata = "skouppi-classdata";
 const classifyModelArn =
-  "arn:aws:comprehend:us-east-1:235920682125:document-classifier/energy-crisis-model/version/0-7";
+  "arn:aws:comprehend:us-east-1:235920682125:document-classifier/ukraine-with-grays/version/0-0";
 const uutislahteet = "feeds/feeds.json";
 
 exports.handler = async function (event) {
@@ -26,13 +26,13 @@ exports.handler = async function (event) {
   console.log("Uutiset haettu feedeistä"); //Debug
 
   // S3:een tallennettavan tiedostonnimen muotoilu (uutiset/<aikaleima>.json)
-  // Filename for the file going into the S3 Bucket (uutiset/<aikaleima>.json)
+  // Filename for the file going into the S3 Bucket (uutiset/<timestamp>.json)
   const uutistiedostonNimi = `uutiset/${luoAikaleima(new Date())}.json`;
 
   // Save the news items into a s3 bucket as json.
   await s3Tallenna(uutiset, s3Bucket, uutistiedostonNimi, "application/json");
 
-  console.log(`Uuutiset tallennettu ${s3Bucket}:iin`); //Debug
+  console.log(`Uutiset tallennettu ${s3Bucket}:iin: ${uutistiedostonNimi}`); //Debug
 
   // Luodaan uutisista luokittimelle sopiva tiedosto uutisista ja tallennetaan S3Buckeettin
   // Reformat the news items for the AWS Comprehend analysis job
@@ -49,7 +49,6 @@ exports.handler = async function (event) {
     tunnistustiedostonNimi,
     "application/txt"
   );
-
   console.log(`Testiluokittelu-tiedosto luotu ja tallennettu ${s3Bucket}:iin`); //Debug
 
   // Luodaan ja käynnistetään tunnistusoperaatio AWS:ään

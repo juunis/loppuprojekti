@@ -45,7 +45,7 @@ async function haeFeedit(feedURLs, aikaleima) {
       const data = await fetchLatest(element.URL);
       resolve(data);
     });
-    getnews
+    await getnews
       .then((data) => {
         data.items.forEach((item) => {
           if (aikaleima < new Date(item.isoDate)) {
@@ -66,7 +66,7 @@ async function haeFeedit(feedURLs, aikaleima) {
         console.log(element.title, error);
       });
   }
-  return uutiset;
+
   // Old syncronous code ------>
   // const data = await fetchLatest(element.URL);
   // // Process all the news items
@@ -87,6 +87,8 @@ async function haeFeedit(feedURLs, aikaleima) {
 
   // Sort from newest to oldest
   // uutiset.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
+
+  return uutiset;
 }
 
 // Function that fetches data from a given URL

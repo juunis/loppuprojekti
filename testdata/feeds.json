@@ -1,0 +1,94 @@
+{
+  "feeds": [
+    {
+      "URL": "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS",
+      "country": "Finland",
+      "title": "Yle"
+    },
+    {
+      "URL": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+      "country": "United States of America",
+      "title": "The New York Times"
+    },
+    {
+      "URL": "https://www.huffpost.com/section/front-page/feed?x=1",
+      "country": "United States of America",
+      "title": "Huffpost"
+    },
+    {
+      "URL": "https://www.politico.com/rss/politicopicks.xml",
+      "country": "United States of America",
+      "title": "The Politico"
+    },
+    {
+      "URL": "https://www.latimes.com/local/rss2.0.xml",
+      "country": "United States of America",
+      "title": "Los Angeles Times"
+    },
+    {
+      "URL": "https://www.cnbc.com/id/100727362/device/rss/rss.html",
+      "country": "United States of America",
+      "title": "CNBC"
+    },
+    {
+      "URL": "http://feeds.feedburner.com/ndtvnews-world-news",
+      "country": "India",
+      "title": "NDTV"
+    },
+    {
+      "URL": "https://globalnews.ca/world/feed/",
+      "country": "Canada",
+      "title": "Global News"
+    },
+    {
+      "URL": "https://www.themoscowtimes.com/rss/news",
+      "country": "The Neatherlands",
+      "title": "The Moscow Times"
+    },
+    {
+      "URL": "https://timesofindia.indiatimes.com/rssfeeds/296589292.cms",
+      "country": "India",
+      "title": "The Times of India"
+    },
+    {
+      "URL": "https://www.thesun.co.uk/news/worldnews/feed/",
+      "country": "United Kingdom",
+      "title": "The Sun"
+    },
+    {
+      "URL": "http://www.cbc.ca/cmlink/rss-world",
+      "country": "Canada",
+      "title": "CBC/Radio-Canada"
+    },
+    {
+      "URL": "http://www.smh.com.au/rssheadlines/world/article/rss.xml",
+      "country": "Australia",
+      "title": "The Sydney Morning Herald"
+    },
+    {
+      "URL": "http://www.channelnewsasia.com/rssfeeds/8395884",
+      "country": "Singapore",
+      "title": "Channel News Asia"
+    },
+    {
+      "URL": "https://wan-ifra.org/news/feed/",
+      "country": "France",
+      "title": "World Association of News Publishers"
+    },
+    {
+      "URL": "https://www.neweurope.eu/category/world/feed/",
+      "country": "Belgium",
+      "title": "New Europe"
+    },
+    {
+      "URL": "https://www.aljazeera.com/xml/rss/all.xml",
+      "country": "Qatar",
+      "title": "Al Jazeera"
+    },
+    {
+      "URL": "https://www.france24.com/en/rss",
+      "country": "France",
+      "title": "France 24"
+    }
+  ]
+}
