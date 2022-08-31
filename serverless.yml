@@ -53,6 +53,7 @@ functions:
       - http:
           path: /uutiset
           method: GET
+          cors: true
 
 
 # resources:
