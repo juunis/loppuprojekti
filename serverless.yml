@@ -9,6 +9,7 @@ provider:
   runtime: nodejs16.x
   environment: ${self:custom.settings}
   region: us-east-1
+  endpointType: REGIONAL
   iam:
     role:
       statements:
