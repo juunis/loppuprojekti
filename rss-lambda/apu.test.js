@@ -10,7 +10,6 @@ test('should get rss feed', async () => {
     
     const result = await fetchLatest();
 
-    //expect(result.description).toEqual(feedConfig.description);
     expect(result).toEqual(feed);
     expect(result.items).toEqual(items);
 })
