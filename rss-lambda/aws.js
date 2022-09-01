@@ -55,7 +55,7 @@ async function s3hae(bucket, tiedostonNimi) {
 async function classify(inputBucket, inputfile, output, modelArn, sourcetag) {
   const params = {
     DataAccessRoleArn:
-      "arn:aws:iam::235920682125:role/service-role/AmazonComprehendServiceRole-ristotest" /* required */,
+      "arn:aws:iam::235920682125:role/skouppi-dev-us-east-1-lambdaRole" /* required */,
     DocumentClassifierArn: modelArn,
     /* required */ InputDataConfig: {
       /* required */ S3Uri: `s3://${inputBucket}/${inputfile}` /* required */,

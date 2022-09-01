@@ -1,15 +1,9 @@
-service: skouppi-sls-testi2
-
-custom:
-  settings:
-    POSTS_TABLE: skouppi
+service: skouppi
 
 provider:
   name: aws
   runtime: nodejs16.x
-  environment: ${self:custom.settings}
   region: us-east-1
-  endpointType: REGIONAL
   iam:
     role:
       statements:
@@ -23,44 +17,38 @@ provider:
           Resource:
             #- "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.POSTS_TABLE}"
             #- "arn:aws:lambda:${self:provider.region}"
-            - "arn:aws:s3:::skouppi-sls-testi/*"
             - "arn:aws:s3:::skouppi-classdata/*"
             - "arn:aws:s3:::skouppi-bucket/*"
             - "arn:aws:iam::235920682125:role/skouppi-sls-testi2-dev-us-east-1-lambdaRole"
-            #- "arn:aws:sns:${self:provider.region}:235920682125:Kanye-topic"
 
 functions:
-  rss-lambda-testi:
+  rssLambda:
     handler: rss-lambda/index.handler
     timeout: 10
     events:
       - eventBridge:
-          schedule: rate(12 hours)
+          schedule: rate(4 hours)
 
-
-
-  dataggregator-lambda-testi:
+  dataggregatorLambda:
     handler: dataggregator-lambda/index.handler
+    timeout: 20
     events:
       - s3:
-          bucket: skouppi-sls-testi
+          bucket: skouppi-classdata
           event: s3:ObjectCreated:*
-          #existing: true
+          existing: true
 
-        
-  kolmas-lambda-testi: # muokkaa tää oikeaksi
-    handler: kolmas-lambda/index.handler
+  apiLambda: # muokkaa tää oikeaksi
+    handler: api-lambda/index.handler
+    timeout: 20
     events:
       - http:
           path: /uutiset
           method: GET
           cors: true
 
-
 # resources:
 #   Resources:
-
-
 
 plugins:
   - serverless-ignore

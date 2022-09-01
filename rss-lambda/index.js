@@ -21,7 +21,7 @@ exports.handler = async function (event) {
   // Fetch the news, sources and a time window (from this moment backwards) as parameters.
   const uutiset = await haeFeedit(
     feedURLs,
-    new Date().setHours(new Date().getHours() - 12)
+    new Date().setHours(new Date().getHours() - 4)
   );
   console.log("Uutiset haettu feedeistä"); //Debug
 

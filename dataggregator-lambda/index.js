@@ -16,8 +16,8 @@ const loppudataTiedosto = "output/loppudata.json";
 const className = "Ukraine";
 const confidenceVAL = 0.7;
 
-// exports.handler = async function (event) {
-const handler = async function (event) {
+exports.handler = async function (event) {
+  // const handler = async function (event) {
   // ATTENTION! Comment out the appropriate line above whether your are testing locally with node or running on AWS Lambda
 
   /* Haetaan luokittelun pohjalla olleet alkuperäiset uutistiedot
