@@ -13,13 +13,10 @@ provider:
             - s3:*
             - comprehend:*
             - iam:PassRole
-            # lisää tähän kaikki tarvittavat roolit, tsekkaa testi2:n käsin lisätyt roolit, myös lisätty trusted entity vai mikö olikaan
           Resource:
-            #- "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.POSTS_TABLE}"
-            #- "arn:aws:lambda:${self:provider.region}"
             - "arn:aws:s3:::skouppi-classdata/*"
             - "arn:aws:s3:::skouppi-bucket/*"
-            - "arn:aws:iam::235920682125:role/skouppi-sls-testi2-dev-us-east-1-lambdaRole"
+            - "arn:aws:iam::235920682125:role/skouppi-dev-us-east-1-lambdaRole"
 
 functions:
   rssLambda:
@@ -38,7 +35,7 @@ functions:
           event: s3:ObjectCreated:*
           existing: true
 
-  apiLambda: # muokkaa tää oikeaksi
+  apiLambda:
     handler: api-lambda/index.handler
     timeout: 20
     events:
@@ -46,9 +43,6 @@ functions:
           path: /uutiset
           method: GET
           cors: true
-
-# resources:
-#   Resources:
 
 plugins:
   - serverless-ignore
