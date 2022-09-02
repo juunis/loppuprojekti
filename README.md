@@ -15,3 +15,8 @@ A Lambda function to classify news items according to previously launched AWS Co
 
 ### Api-Lambda
 A Lambda function for running API access service providing the final output, the topical news items
+
+
+### Example
+
+![image](https://user-images.githubusercontent.com/56840557/188080164-815dc3c8-b4dc-41d5-8840-5638f9b519ba.png)
