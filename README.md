@@ -18,6 +18,7 @@ A Lambda function for running API access service providing the final output, the
 
 
 ### feed.json
+Example of the input format
 ```
 {
   "feeds": [
@@ -25,6 +26,11 @@ A Lambda function for running API access service providing the final output, the
       "URL": "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS",
       "country": "Finland",
       "title": "Yle"
+    },
+    {
+      "URL": "https://globalnews.ca/world/feed/",
+      "country": "Canada",
+      "title": "Global News"
     }
   ]
 }
