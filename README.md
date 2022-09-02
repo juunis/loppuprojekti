@@ -17,26 +17,8 @@ A Lambda function to classify news items according to previously launched AWS Co
 A Lambda function for running API access service providing the final output, the topical news items
 
 
-### feed.json
-Example of the input format
-```
-{
-  "feeds": [
-    {
-      "URL": "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS",
-      "country": "Finland",
-      "title": "Yle"
-    },
-    {
-      "URL": "https://globalnews.ca/world/feed/",
-      "country": "Canada",
-      "title": "Global News"
-    }
-  ]
-}
-
-```
-
 ### Example
+Example of JSON output (one news item) from API. 
 
-![image](https://user-images.githubusercontent.com/56840557/188080164-815dc3c8-b4dc-41d5-8840-5638f9b519ba.png)
+![image](https://user-images.githubusercontent.com/56840557/188081538-371ca5ec-2acf-4273-ae88-bcfb0af72063.png)
+
