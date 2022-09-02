@@ -28,7 +28,8 @@ A Lambda function for running API access service providing the final output, the
     }
   ]
 }
-    ```
+
+```
 
 ### Example
 
